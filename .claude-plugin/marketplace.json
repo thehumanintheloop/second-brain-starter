@@ -1,0 +1,15 @@
+{
+  "name": "second-brain-starter",
+  "description": "Humanatia's second-brain toolkit: a guided setup skill plus companion upkeep skills for building and maintaining a knowledge OS in Cowork.",
+  "owner": {
+    "name": "Humanatia"
+  },
+  "plugins": [
+    {
+      "name": "second-brain-starter",
+      "source": "./plugins/second-brain-starter",
+      "description": "Stand up a working second brain in Cowork and keep it running. A guided setup skill builds the folder structure, rules, identity note, templates, and framework notes, then hands off to seven companion skills for day-to-day upkeep: resume, record, import-transcript, create-folder, archive, os-health, and capture-framework.",
+      "version": "0.1.1"
+    }
+  ]
+}

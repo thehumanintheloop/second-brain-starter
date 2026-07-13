@@ -1,0 +1,16 @@
+{
+  "name": "second-brain-starter",
+  "version": "0.1.1",
+  "description": "Stand up a working second brain in Cowork and keep it running. A guided setup skill builds the folder structure, rules, identity note, templates, and framework notes, then hands off to seven companion skills for day-to-day upkeep: resume, record, import-transcript, create-folder, archive, os-health, and capture-framework.",
+  "author": {
+    "name": "Humanatia"
+  },
+  "keywords": [
+    "second-brain",
+    "knowledge-management",
+    "obsidian",
+    "cowork",
+    "vault",
+    "note-taking"
+  ]
+}

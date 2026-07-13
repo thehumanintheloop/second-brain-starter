@@ -1,0 +1,59 @@
+# Second Brain Starter
+
+A Cowork plugin that stands up a working second brain and keeps it running.
+
+It ships one guided setup skill and seven companion skills for ongoing use. The setup skill builds
+the structure; the companions handle the day-to-day. Everything runs file-based on any connected
+folder — no Obsidian plugin or local API required.
+
+## The setup skill
+
+**`second-brain-architecture`** — a structured interview across two blocks (Context, Connections)
+that generates actual files, not recommendations: the folder structure, a root `CLAUDE.md`,
+`core-rules.md`, an identity note (`me.md`), a core template set, and framework notes decomposed
+from your existing methodology. Run it once, at the start, to build the vault. It ends by handing
+off to the seven companion skills below.
+
+The structure it builds:
+
+```
+[VaultRoot]/
+├── CLAUDE.md          navigational, includes a connector-scoping paragraph
+├── index.md           the map, read first
+├── core-rules.md      trimmed operating-rules baseline
+├── me.md              identity note — who you are, how you work
+├── Knowledge/
+│   ├── Frameworks/    framework notes; MOCs graduate here later
+│   ├── Research/
+│   └── Templates/     core note templates
+├── Projects/          always
+├── Archive/           always
+├── Clients/           opt-in
+└── Partners/          opt-in
+```
+
+## The seven companion skills
+
+| Skill | What it does |
+|---|---|
+| `resume` | Picks up a previous work session by loading the latest `Sessions/` note in a project folder. |
+| `record` | Captures the current session's thinking and decisions into the vault, and keeps the project's `CLAUDE.md` current. |
+| `import-transcript` | Imports a meeting transcript as a structured note, routing to whichever transcript source is connected. Ships dormant until you connect one. |
+| `create-folder` | Scaffolds a new client, partner, or project folder — folder, `Sessions/` subfolder, hub note, and `CLAUDE.md`. |
+| `archive` | Moves retired content to `Archive/` instead of deleting it, and extracts the substance of anything about to be overwritten. |
+| `os-health` | Runs a health-check audit — broken links, orphaned notes, naming drift, duplicates, stale claims — and applies only the fixes you approve. |
+| `capture-framework` | Turns an idea from the current conversation into a `Knowledge/Frameworks/` note, deepening a near-duplicate or filing under a MOC where one fits, in one pass. |
+
+## How the pieces fit
+
+`second-brain-architecture` and `os-health` are siblings: one builds the structure, the other keeps
+it coherent as it grows. `record` and `resume` are a pair: one writes session context, the other
+reads it back. `create-folder` scaffolds new engagements that `record`/`resume` then maintain.
+`archive` executes the "don't delete, archive" rule the setup skill bakes into `core-rules.md`.
+`capture-framework` grows the `Knowledge/Frameworks/` folder one idea at a time, and is what
+eventually triggers a MOC once notes on a theme cluster.
+
+## Requirements
+
+Cowork with a connected folder to use as the vault. No other dependencies — every skill works
+through file access alone.
