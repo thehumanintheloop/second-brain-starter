@@ -1,8 +1,9 @@
 {
   "name": "second-brain-starter",
-  "description": "Humanatia's second-brain toolkit: a guided setup skill plus companion upkeep skills for building and maintaining a knowledge OS in Cowork.",
+  "description": "A second-brain toolkit: a guided setup skill plus companion upkeep skills for building and maintaining a knowledge OS in Cowork.",
   "owner": {
-    "name": "Humanatia"
+    "name": "Tancredi De Pretto",
+    "url": "https://www.linkedin.com/in/tancredi-dp/"
   },
   "plugins": [
     {

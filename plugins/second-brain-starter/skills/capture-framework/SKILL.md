@@ -15,7 +15,7 @@ description: >
 
 Turns an idea from the current conversation into a proper `Knowledge/Frameworks/` note and
 files it under a fitting MOC in the same pass, if one exists. This is the lightweight,
-conversation-only sibling of Humanatia's own `concept-capture` skill — same core judgment
+conversation-only, single-pass version of a fuller capture workflow — same core judgment
 (new note vs. deepen an existing one, MOC placement), with the batch/sync mode and the
 Research/-cross-linking step removed. One trigger, one pass, done.
 
@@ -35,7 +35,7 @@ The user has just said something, mid-conversation, worth keeping — a distinct
 explained, a rule of thumb they repeated, a correction they gave more than once, a one-liner
 that landed. Their explicit ask ("capture this", "write this up") already establishes it's
 worth keeping. There's no worthiness test to apply here — that's Mode B territory in the
-Humanatia version, and this skill doesn't have a Mode B. Go straight to the steps below, using
+fuller version, and this skill doesn't have a Mode B. Go straight to the steps below, using
 the conversation itself as the source material.
 
 If it's genuinely unclear what specifically should be captured (the conversation covered

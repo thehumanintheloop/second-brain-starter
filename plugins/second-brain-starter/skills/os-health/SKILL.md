@@ -57,7 +57,7 @@ files. If the vault has a root `CLAUDE.md`, respect any exclusions it names.
 
 ## Step 2 — Learn this vault's conventions
 
-**Do not assume Humanatia's conventions.** This runs on the *client's* OS. Before auditing:
+**Do not assume any particular house style.** This runs on the *user's own* OS. Before auditing:
 
 - Read the vault's **root `CLAUDE.md`** if one exists. Extract: naming conventions, folder meanings,
   hub-note / MOC pattern, `## Related` footer expectations, and anything marked as a rule.

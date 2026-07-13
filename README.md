@@ -1,6 +1,6 @@
 # Second Brain Starter
 
-A Claude plugin marketplace by [Humanatia](https://humanatia.com).
+A Claude plugin marketplace by [Tancredi De Pretto](https://www.linkedin.com/in/tancredi-dp/).
 
 **`second-brain-starter`** stands up a working second brain in Cowork and keeps it running. A guided setup skill builds your folder structure, rules, identity note, templates, and framework notes — actual files, not recommendations — then hands off to seven companion skills for day-to-day upkeep.
 
@@ -38,4 +38,4 @@ Maintainers push changes to this repo. To pull the latest version:
 
 ---
 
-Built and maintained by Humanatia.
+Built and maintained by [Tancredi De Pretto](https://www.linkedin.com/in/tancredi-dp/).
