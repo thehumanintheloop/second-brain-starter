@@ -143,9 +143,10 @@ the only property Step 2a below touches when deepening an existing note.
 5. **Soft cluster nudge** — while you're in `Knowledge/Frameworks/`, if this capture brings
    the count of un-filed notes sharing a clear common theme to three or more, mention it in
    the confirmation (Step 4) as a one-line suggestion — "you've now got three notes on X with
-   no MOC — want one?" — rather than creating the MOC yourself. This is the deferred-MOC
-   growth trigger the setup skill already describes; this skill is what actually notices it
-   happen.
+   no MOC — worth running `os-health` to see if it's time to graduate one?" — rather than
+   creating the MOC yourself. This skill only ever notices an early cluster forming; `os-health`
+   is what actually builds MOCs, once the Frameworks/ count crosses its own graduation threshold
+   (see that skill's "MOC coverage" check) — this nudge just points there instead of dead-ending.
 
 ---
 

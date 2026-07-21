@@ -3,13 +3,14 @@ name: os-health
 description: >
   Run a health check on a knowledge OS / second brain — a file-based audit that surfaces broken
   links, orphaned notes, naming drift, duplicate or contradictory content, stale claims, and
-  missing connections, then applies only the fixes the user approves. Works entirely through file
-  access (no Obsidian plugin or local API required), so it runs in Cowork on any connected vault.
-  Use whenever the user says 'run os-health', 'health check my vault', 'audit my second brain',
-  'check my notes for problems', 'find broken links / orphans / duplicates', 'tidy up my knowledge
-  base', or wants a recurring maintenance pass on their system. Sibling to
-  second-brain-architecture — that skill builds the structure, this one keeps it coherent as it
-  grows.
+  missing connections, then applies only the fixes the user approves. Also tracks Knowledge/Frameworks/
+  growth and, once it crosses a threshold, proposes and (on approval) builds the vault's first MOCs
+  or files newly-unfiled notes into existing ones. Works entirely through file access (no Obsidian
+  plugin or local API required), so it runs in Cowork on any connected vault. Use whenever the user
+  says 'run os-health', 'health check my vault', 'audit my second brain', 'check my notes for
+  problems', 'find broken links / orphans / duplicates', 'tidy up my knowledge base', or wants a
+  recurring maintenance pass on their system. Sibling to second-brain-architecture — that skill
+  builds the structure, this one keeps it coherent as it grows.
 version: 1.0.0
 ---
 
@@ -98,6 +99,22 @@ Run the checks below. They fall into two tiers; **report both, but rank structur
 because they are deterministic and high-confidence, and coherence findings second because they are
 judgement calls. Never invent a problem to fill a section — an empty section is a good result.
 
+**Delegate the two tiers when the subagents are available.** This plugin ships two read-only
+subagents that mirror these tiers: `link-integrity-checker` (Tier 1) and `vault-coherence-auditor`
+(Tier 2). If your runtime exposes them, dispatch to both — ideally in parallel — instead of running
+the checks inline, then fold their findings into Step 6:
+
+- **Tier 1 → `link-integrity-checker`** — dead links, orphans, naming drift, missing backlinks. Pass
+  it the scope and the vault root. **Keep MOC coverage yourself** (it's Tier 1 below, but it feeds the
+  write procedure in Step 7 and the read-only agent doesn't run it).
+- **Tier 2 → `vault-coherence-auditor`** — contradictions, stale claims, duplicates, missing
+  cross-references.
+
+Dispatching gives each tier its own context window and lets the two run at once — worth it on any
+vault big enough to matter. **If those subagents aren't available in your runtime, run every check
+below inline yourself.** The tier definitions here are the canonical spec either way — the agents
+follow them, so nothing changes about *what* gets checked, only *who* runs it.
+
 ### Tier 1 — Structural integrity (deterministic)
 
 - **Dead links** — a `[[target]]` that resolves to no file in the index. Distinguish "no such note"
@@ -111,6 +128,18 @@ judgement calls. Never invent a problem to fill a section — an empty section i
 - **Missing backlinks** — a note mentions another note's exact title as **plain text** where a
   `[[wikilink]]` clearly belongs. Only flag unambiguous proper-noun / title matches, never generic
   words.
+- **MOC coverage** — count substantive notes in `Knowledge/Frameworks/*.md`. Two distinct findings
+  live under this one check, never both at once:
+  - **First graduation** — `Knowledge/MOCs/` is empty or absent, and the Frameworks/ count is at or
+    above the graduation threshold (default **20** — check the vault's root `CLAUDE.md` or
+    `core-rules.md` first in case this vault set its own number, the same way scope defaults respect
+    vault-specific exclusions). Flag: the vault has enough framework notes to organise into MOCs.
+  - **Ongoing filing** — `Knowledge/MOCs/*.md` already exist. Count Frameworks/ notes with **no
+    inbound `[[wikilink]]` from any MOC file** ("unfiled"). Flag once that count reaches **5** or
+    more.
+  - If the user defers either finding ("not now"), don't re-flag it on the very next run — note the
+    deferral in `os-health-log.md` (see *Recurring ritual*) and only re-surface once the relevant
+    count has grown by 10 more, or the user asks directly.
 
 ### Tier 2 — Coherence (reasoning — judgement required)
 
@@ -134,7 +163,7 @@ show the top findings per section and offer to list the rest.
 ```
 ## OS Health — [date]
 **Scope:** [what was audited] · **Notes checked:** N
-**Vitals:** 🔴 N dead links · 🟠 N orphans · 🟠 N naming · 🟡 N backlinks · 🟡 N contradictions · 🟡 N stale · ⚪ N duplicates · ⚪ N gaps
+**Vitals:** 🔴 N dead links · 🟠 N orphans · 🟠 N naming · 🟣 N MOC coverage · 🟡 N backlinks · 🟡 N contradictions · 🟡 N stale · ⚪ N duplicates · ⚪ N gaps
 (Only non-zero categories shown. A clean bill of health is a good outcome — say so plainly.)
 
 ### 🔴 Dead links (N)
@@ -142,6 +171,10 @@ show the top findings per section and offer to list the rest.
 
 ### 🟠 Orphans (N)
 **[1]** `path/note.md` — no inbound or outbound links. Link it to `[[…]]`, or confirm it's standalone?
+
+### 🟣 MOC coverage
+**First graduation:** Frameworks/ has grown to N notes with no MOC structure yet. Cluster into MOCs?
+**Ongoing filing:** N framework notes aren't filed under any MOC. File them under existing MOCs, or start a new one for [theme]?
 
 …one section per non-empty category, structural tiers first…
 ```
@@ -164,8 +197,70 @@ Echo each change before making it; confirm after. Never touch anything not expli
   handle links pointing at the note being retired.
 - **Contradictions / stale claims** — never auto-resolve. Update the outdated line only after the user
   says which version is current, showing the proposed edit first.
+- **MOC coverage** — the bigger of the two structural calls in this skill; see *MOC graduation* below
+  for the full procedure. Never skip straight to writing files — propose the clustering first.
 
 End with a change log: "Updated `path/note.md`", one line each, and the count fixed vs deferred.
+
+## MOC graduation — building or extending the MOC set
+
+This runs only when the user approves a "MOC coverage" finding from Steps 5–6. It's a bigger
+structural call than any other fix in this skill, so it always gets two passes — propose, then
+write — never a single-shot creation.
+
+**First graduation (`Knowledge/MOCs/` empty or absent)**
+
+1. Read every note in `Knowledge/Frameworks/` in scope — title, frontmatter, and the "What this is"
+   section (or equivalent opening) is usually enough to place it; full-read only if the theme isn't
+   clear from that.
+2. Group them into 3–6 thematic clusters. A cluster needs at least 2–3 notes to earn its own MOC —
+   don't create a one-note MOC, and don't force every note into a cluster; a genuine outlier stays
+   unfiled rather than getting mis-filed. Leaving some notes unfiled is a valid outcome of this pass.
+3. Name each cluster in this vault's own terms — derive the name from what the notes actually say,
+   not a generic label pasted in from elsewhere.
+4. **Show the full proposed structure before writing anything**: one line per cluster name, with the
+   note filenames listed under it. Same draft-first pattern as duplicates/merges above. Let the user
+   rename a cluster, move a note between clusters, or pull one out to stay unfiled — before any file
+   gets touched.
+5. Once confirmed, write one file per cluster: `Knowledge/MOCs/MOC - <Cluster Name>.md`, matching
+   this vault's own MOC convention if one is visible elsewhere in the vault (frontmatter `title` /
+   `type: moc` / `created`, an italic one-line scope under the H1, then bulleted `[[wikilink]] —
+   description` entries, optionally grouped under thematic sub-headings if a cluster is large enough
+   — 6+ notes — to need a second layer). If no existing MOC is visible to pattern-match, use:
+   ```markdown
+   ---
+   title: MOC - <Cluster Name>
+   type: moc
+   created: YYYY-MM-DD
+   ---
+
+   # MOC - <Cluster Name>
+
+   > [One-line scope — what this cluster is about and why these notes sit together]
+
+   - [[note-slug]] — one-line description
+   - [[note-slug]] — one-line description
+
+   ## Related maps
+   - [[index]]
+   - [[MOC - <Other Cluster Name>]]
+   ```
+   List every sibling MOC created in this same pass under "Related maps," not just this one.
+6. For each note now filed, add `[[MOC - <Cluster Name>]]` to that note's own `## Related` footer
+   (create the footer if it doesn't have one). MOCs link down to members; members link back up to
+   their one MOC — the same bidirectional convention the vault already expects elsewhere.
+7. If `index.md` exists and its `## Frameworks` section still lists individual framework notes
+   one-by-one (the `second-brain-architecture` setup template), replace that list with one line per
+   MOC instead — this is the moment `index.md` graduates from a flat note list to a map-of-maps,
+   matching what the folder now actually looks like. Show the proposed replacement before writing it.
+
+**Ongoing filing (MOCs already exist)**
+
+A newly-unfiled note doesn't need a full graduation pass — file it, or a small batch of them, under
+the closest existing MOC, the same judgment `capture-framework` makes mid-conversation, just applied
+in a batch across everything the scope caught. If a batch of unfiled notes shares a theme with no
+existing MOC home, propose one new MOC for that cluster alone (same propose-then-write pattern as
+above, just for a single cluster). Update each filed note's `## Related` footer as in step 6 above.
 
 ## Recurring ritual (what makes this durable, not a first-week toy)
 

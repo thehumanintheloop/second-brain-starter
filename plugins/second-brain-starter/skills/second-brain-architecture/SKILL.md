@@ -384,7 +384,7 @@ origin: [source]
 
 These six properties — `title`, `type`, `status`, `created`, `last-updated`, `origin` — are the standard frontmatter for every note in `Knowledge/Frameworks/`, regardless of which skill wrote it. This template is specific to setup-generated foundation notes; `capture-framework`'s mid-conversation captures carry the same frontmatter block but a lighter body — see that skill's own SKILL.md.
 
-No MOC file is generated at setup. Once enough framework notes on a related theme exist, a MOC graduates from them — that's a later, organic step, not part of this interview.
+No MOC file is generated at setup. Once enough framework notes on a related theme exist, a MOC graduates from them — that's a later, organic step, not part of this interview. That graduation is executed by `os-health`, not this skill: it tracks the Frameworks/ note count on every run and, once a set threshold is crossed, proposes and (on approval) builds the initial MOC set — see that skill's "MOC coverage" check and "MOC graduation" procedure.
 
 **8. `index.md`** — vault map
 ```markdown
@@ -412,7 +412,7 @@ Once all files are created, present the seven pre-installed skills, plain — no
 | `import-transcript` | Imports a meeting transcript into the vault as a structured context note (routes to whichever transcript source is connected) |
 | `create-folder` | Scaffolds a new client, partner, or project folder — creates the folder, a Sessions/ subfolder, and a hub note |
 | `archive` | Moves retired or superseded content to `Archive/`, keeping or cutting links as appropriate |
-| `os-health` | Runs a health-check audit on the vault — dead links, orphaned notes, naming drift, duplicates, stale claims |
+| `os-health` | Runs a health-check audit on the vault — dead links, orphaned notes, naming drift, duplicates, stale claims — and graduates MOCs once Frameworks/ grows past a threshold |
 | `capture-framework` | Turns an idea from the current conversation into a `Knowledge/Frameworks/` note, checking for a near-duplicate to deepen and a MOC to file it under, in one pass |
 
 One line each. No install decisions to make — they're already installed.

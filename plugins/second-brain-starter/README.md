@@ -41,7 +41,7 @@ The structure it builds:
 | `import-transcript` | Imports a meeting transcript as a structured note, routing to whichever transcript source is connected. Ships dormant until you connect one. |
 | `create-folder` | Scaffolds a new client, partner, or project folder — folder, `Sessions/` subfolder, hub note, and `CLAUDE.md`. |
 | `archive` | Moves retired content to `Archive/` instead of deleting it, and extracts the substance of anything about to be overwritten. |
-| `os-health` | Runs a health-check audit — broken links, orphaned notes, naming drift, duplicates, stale claims — and applies only the fixes you approve. |
+| `os-health` | Runs a health-check audit — broken links, orphaned notes, naming drift, duplicates, stale claims — and applies only the fixes you approve. Also tracks `Knowledge/Frameworks/` growth and, once it crosses a threshold, proposes and (on approval) builds your first MOCs or files newly-unfiled notes into existing ones. |
 | `capture-framework` | Turns an idea from the current conversation into a `Knowledge/Frameworks/` note, deepening a near-duplicate or filing under a MOC where one fits, in one pass. |
 
 ## How the pieces fit
@@ -50,8 +50,19 @@ The structure it builds:
 it coherent as it grows. `record` and `resume` are a pair: one writes session context, the other
 reads it back. `create-folder` scaffolds new engagements that `record`/`resume` then maintain.
 `archive` executes the "don't delete, archive" rule the setup skill bakes into `core-rules.md`.
-`capture-framework` grows the `Knowledge/Frameworks/` folder one idea at a time, and is what
-eventually triggers a MOC once notes on a theme cluster.
+`capture-framework` grows the `Knowledge/Frameworks/` folder one idea at a time; when notes on a
+theme start to cluster it nudges you toward `os-health`, which is what actually graduates the MOC
+once the folder crosses its threshold.
+
+## Bundled agents
+
+Two read-only review agents ship alongside the skills. `os-health` delegates its two check tiers to
+them when your runtime exposes them, and you can also call them standalone:
+
+| Agent | What it does |
+|---|---|
+| `link-integrity-checker` | Fast, deterministic structural pass — dead links, orphans, naming drift, missing backlinks. Reports only, never edits. |
+| `vault-coherence-auditor` | Judgment pass — contradictions, stale claims, duplicates, missing cross-references. Reports only, never edits. |
 
 ## Requirements
 

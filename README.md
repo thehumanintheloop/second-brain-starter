@@ -14,8 +14,10 @@ A Claude plugin marketplace by [Tancredi De Pretto](https://www.linkedin.com/in/
 | `import-transcript` | Pull a meeting transcript in as a context note |
 | `create-folder` | Scaffold a new client / project folder with a hub note |
 | `archive` | Retire content to `Archive/` instead of deleting it |
-| `os-health` | Audit the vault for broken links, orphans, duplicates, stale claims |
+| `os-health` | Audit the vault for broken links, orphans, duplicates, stale claims — and graduate framework notes into MOCs as they accumulate |
 | `capture-framework` | Turn a durable idea into a filed framework note |
+
+It also bundles two read-only review agents — `link-integrity-checker` and `vault-coherence-auditor` — that `os-health` hands its structural and coherence checks to.
 
 ## Install
 
