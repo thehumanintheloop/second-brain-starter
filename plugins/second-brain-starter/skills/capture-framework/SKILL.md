@@ -1,27 +1,32 @@
 ---
 name: capture-framework
 description: >
-  Turns a durable idea, distinction, or recurring lens from the current conversation into a
-  Knowledge/Frameworks/ note, in one pass — no separate review step. Checks existing framework
-  notes and MOCs first: deepens an existing note instead of forking a near-duplicate when the
-  idea extends something already there, and files the note under a fitting MOC if one exists.
-  Lightweight, single-turn, conversation-only (no external sync). Use when the user says
-  "capture this as a framework", "save this as a framework note", "write this up as a
-  framework", "add this to my frameworks folder", "turn this into a framework note", or any
-  similar mid-conversation request to preserve a durable idea just discussed.
+  Turns a durable idea, distinction, or recurring lens into a Knowledge/Frameworks/ note, in
+  one pass — no separate review step. Works two ways: capture something just discussed in the
+  current conversation, or open it fresh in a new chat and hand it the idea directly (pasted
+  text, a link, or a described concept). Checks existing framework notes and MOCs first:
+  deepens an existing note instead of forking a near-duplicate when the idea extends something
+  already there, and files the note under a fitting MOC if one exists. Lightweight, single-turn,
+  no external sync (no Slack, no scheduled batch). Use when the user says "capture this as a
+  framework", "save this as a framework note", "write this up as a framework", "add this to my
+  frameworks folder", "turn this into a framework note", or opens a new chat asking to capture a
+  specific idea as a framework.
 ---
 
 # Capture Framework — File a Durable Idea into Frameworks/, in One Pass
 
-Turns an idea from the current conversation into a proper `Knowledge/Frameworks/` note and
-files it under a fitting MOC in the same pass, if one exists. This is the lightweight,
-conversation-only, single-pass version of a fuller capture workflow — same core judgment
-(new note vs. deepen an existing one, MOC placement), with the batch/sync mode and the
-Research/-cross-linking step removed. One trigger, one pass, done.
+Turns a durable idea into a proper `Knowledge/Frameworks/` note and files it under a fitting
+MOC in the same pass, if one exists. The idea can come from the conversation you're already in,
+or from material the user hands over when they invoke the skill cold in a fresh chat — either
+way the steps below are identical once you have the source material. This is the lightweight,
+single-pass version of a fuller capture workflow — same core judgment (new note vs. deepen an
+existing one, MOC placement), with the batch/sync mode and the Research/-cross-linking step
+removed. One trigger, one pass, done.
 
-Tools needed: Read, Write, Edit, Grep, Glob. No Bash for existence checks or file creation —
-Bash's sandbox mount path and the Read/Write/Edit path diverge inside a Cowork session, so
-Glob is the reliable way to check what already exists.
+Tools needed: Read, Write, Edit, Grep, Glob — plus web fetch when a cold-start capture points
+at a link (fetch and read it before writing the note). No Bash for existence checks or file
+creation — Bash's sandbox mount path and the Read/Write/Edit path diverge inside a Cowork
+session, so Glob is the reliable way to check what already exists.
 
 Operate on paths relative to the connected vault root (`Knowledge/Frameworks/`,
 `Knowledge/MOCs/`, `index.md`) — never hardcode an absolute path, since this skill ships to a
@@ -31,16 +36,31 @@ different vault on every install.
 
 ## When this runs
 
-The user has just said something, mid-conversation, worth keeping — a distinction they
-explained, a rule of thumb they repeated, a correction they gave more than once, a one-liner
-that landed. Their explicit ask ("capture this", "write this up") already establishes it's
-worth keeping. There's no worthiness test to apply here — that's Mode B territory in the
-fuller version, and this skill doesn't have a Mode B. Go straight to the steps below, using
-the conversation itself as the source material.
+Two entry points, same steps once you have the source material. Their explicit ask ("capture
+this", "write this up as a framework") already establishes the idea is worth keeping — there's
+no worthiness test to apply here (that's Mode B territory in the fuller version, and this skill
+doesn't have a Mode B).
 
-If it's genuinely unclear what specifically should be captured (the conversation covered
-several distinct ideas), ask one short clarifying question before proceeding. Otherwise, don't
-ask — just do it and report back.
+- **Mid-conversation** — the user has just said something worth keeping: a distinction they
+  explained, a rule of thumb they repeated, a correction they gave more than once, a one-liner
+  that landed. The source material is the conversation itself.
+- **Fresh / cold start** — the user opens a new chat and invokes the skill with the idea
+  attached in the same message: pasted text, a link, or a concept described in a line or two.
+  That attached material is the source. This works from an empty conversation — nothing needs
+  to have been discussed first.
+
+**Getting the source material:**
+
+- If the invoking message contains the idea (inline text, a pasted passage, a described
+  concept), use that as the source — go straight to the steps below.
+- If the invoking message points at a **link**, fetch and read it first, then treat its
+  substance as the source. Record the URL as the note's `origin` (see Step 2b).
+- If the skill is invoked cold with **no idea attached** ("capture a framework for me" and
+  nothing else), ask one short question — "What's the idea you want to capture?" — then proceed.
+- If it's genuinely unclear what specifically to capture because the conversation covered
+  several distinct ideas, ask one short clarifying question before proceeding.
+
+Otherwise, don't ask — just do it and report back.
 
 ---
 
@@ -94,7 +114,7 @@ type: framework
 status: active
 created: YYYY-MM-DD
 last-updated: YYYY-MM-DD
-origin: conversation
+origin: <conversation | pasted text | described in conversation | the source URL>
 ---
 
 # <Title>
@@ -119,11 +139,14 @@ with nothing under it; a future capture on a related theme can fill it in then.]
 
 Frontmatter — `title` / `type` / `status` / `created` / `last-updated` / `origin` — is the
 standard every note in `Knowledge/Frameworks/` carries, regardless of which skill wrote it.
-`origin` is always `conversation` here, since this skill has no external source to point to; the
-setup skill's framework notes (from `second-brain-architecture`'s 1d, imported/decomposed
-material) carry a real URL, `pasted text`, or `described in conversation` instead — see that
-skill's SKILL.md, file 7. `created` and `last-updated` match at note creation; `last-updated` is
-the only property Step 2a below touches when deepening an existing note.
+Set `origin` to match where the idea actually came from: `conversation` when captured from the
+chat you're already in, `pasted text` or the source URL when handed the material cold in a fresh
+chat, `described in conversation` when the user described the concept to you directly. This
+matches the setup skill's framework notes (from `second-brain-architecture`'s 1d,
+imported/decomposed material), which carry a real URL, `pasted text`, or `described in
+conversation` — see that skill's SKILL.md, file 7. `created` and `last-updated` match at note
+creation; `last-updated` is the only property Step 2a below touches when deepening an existing
+note.
 
 ---
 
@@ -170,5 +193,7 @@ than a new concept."*
 - Never paste the raw conversation excerpt into the note as if it were the finished concept —
   synthesise it into a clear, standalone statement, the way every other note in the folder
   reads.
-- This skill has no batch mode and no external source (no Slack, no scheduled sync) — it only
-  ever runs against the current conversation, on explicit request.
+- This skill has no batch mode and no external sync (no Slack, no scheduled runs) — it only
+  ever runs on explicit request, against a single idea: either one from the current
+  conversation or one the user hands it at invocation. That single-idea, one-pass scope is what
+  keeps it distinct from the fuller capture workflow.

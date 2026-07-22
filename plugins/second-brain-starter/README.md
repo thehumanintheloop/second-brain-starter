@@ -42,7 +42,7 @@ The structure it builds:
 | `create-folder` | Scaffolds a new client, partner, or project folder — folder, `Sessions/` subfolder, hub note, and `CLAUDE.md`. |
 | `archive` | Moves retired content to `Archive/` instead of deleting it, and extracts the substance of anything about to be overwritten. |
 | `os-health` | Runs a health-check audit — broken links, orphaned notes, naming drift, duplicates, stale claims — and applies only the fixes you approve. Also tracks `Knowledge/Frameworks/` growth and, once it crosses a threshold, proposes and (on approval) builds your first MOCs or files newly-unfiled notes into existing ones. |
-| `capture-framework` | Turns an idea from the current conversation into a `Knowledge/Frameworks/` note, deepening a near-duplicate or filing under a MOC where one fits, in one pass. |
+| `capture-framework` | Turns a durable idea into a `Knowledge/Frameworks/` note — either something just discussed, or one you hand it cold in a fresh chat (pasted text, a link, a described concept) — deepening a near-duplicate or filing under a MOC where one fits, in one pass. |
 
 ## How the pieces fit
 
