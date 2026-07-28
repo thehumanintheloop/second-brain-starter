@@ -26,6 +26,7 @@ The structure it builds:
 │   ├── Frameworks/    framework notes; MOCs graduate here later
 │   ├── Research/
 │   └── Templates/     core note templates
+├── Processes/         always — decoupled reference .md skills read at runtime + process docs
 ├── Projects/          always
 ├── Archive/           always
 ├── Clients/           opt-in

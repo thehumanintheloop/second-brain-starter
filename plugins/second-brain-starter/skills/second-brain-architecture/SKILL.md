@@ -273,6 +273,7 @@ Follow the lean structure: What this is / How to navigate / Working in subfolder
 6. Use unique, descriptive filenames vault-wide — wikilinks resolve by filename alone, so two notes sharing a name anywhere in the vault break each other's links.
 7. Every engagement folder (client, partner, or project) has a hub note named after the folder. New notes in that folder link back to it.
 8. Before working inside any folder, read its `CLAUDE.md` first if one exists — and the `CLAUDE.md` of each parent folder on the way down. Never act on a folder's contents without its local context.
+9. Reference material a skill or workflow reads at runtime — voice guides, lookup keys, mapping tables, SOPs, standalone process docs — lives in `Processes/`, decoupled from the skill that uses it. Update the file there, not the skill.
 ```
 
 **3. `me.md`** — identity note, home for 1a plus the always-know/never-do work-style flags so CLAUDE.md stays lean. The two flag sections ship with one illustrative example each (never blank) — the client edits them over time as real preferences surface:
@@ -303,12 +304,15 @@ Create folders matching the tree in CLAUDE.md, built from the guided spine plus 
 │   ├── Frameworks/
 │   ├── Research/
 │   └── Templates/
+├── Processes/           — decoupled reference .md that skills read at runtime + standalone process docs
 ├── Projects/
 ├── Archive/
 ├── Clients/             (only if opted in)
 └── Partners/            (only if opted in)
 ```
-`Knowledge/`, `Projects/`, and `Archive/` are always present. `Clients/` and `Partners/` are included only if the client opted into them in 1b. `Inbox/` and `Daily/` are no longer offered at setup — they're easy to add later (ask Claude, or use `create-folder`) once the client actually knows whether they want a capture/journal layer, rather than guessing at Session 2. `Knowledge/Templates/` is always present and pre-populated (see file 6). `Knowledge/Frameworks/` always exists but ships empty of MOCs — it only holds the framework notes from 1d (file 7); a MOC graduates later, once a cluster of notes on one theme accumulates.
+`Knowledge/`, `Processes/`, `Projects/`, and `Archive/` are always present. `Clients/` and `Partners/` are included only if the client opted into them in 1b. `Inbox/` and `Daily/` are no longer offered at setup — they're easy to add later (ask Claude, or use `create-folder`) once the client actually knows whether they want a capture/journal layer, rather than guessing at Session 2. `Knowledge/Templates/` is always present and pre-populated (see file 6). `Knowledge/Frameworks/` always exists but ships empty of MOCs — it only holds the framework notes from 1d (file 7); a MOC graduates later, once a cluster of notes on one theme accumulates.
+
+`Processes/` is always present as **infrastructure**, not a usage-pattern folder (unlike the dropped `Inbox/`/`Daily/`). It holds decoupled reference material: the `.md` files a skill reads at runtime (a voice guide, a lookup key, a mapping table, an SOP a skill consumes) and standalone process docs that explain a recurring workflow to Claude. It ships empty except for a `CLAUDE.md` purpose guide (see file 5) — no `.gitkeep` needed, the `CLAUDE.md` keeps it visible. The point is separation of concerns: when a later skill would benefit from a reference file it can read rather than embed, this folder is the obvious, documented home for it, so updating a fact or mapping never means rewriting a skill.
 
 Create a `.gitkeep` placeholder in each empty folder so the structure is visible.
 
@@ -333,6 +337,35 @@ File path: `[Category]/CLAUDE.md`
 ```
 
 At setup time these folders are empty, so this stub is mostly scaffolding — it becomes load-bearing once the client starts creating engagement folders inside `Clients/`/`Partners/`/`Projects/` via the `create-folder` skill, which generates the matching hub note per core-rules rule 7.
+
+**`Processes/CLAUDE.md` — a purpose guide, not the files-index stub above.** `Processes/` is infrastructure, so its `CLAUDE.md` explains *what the folder is for* rather than listing files. Emit this **verbatim** — it's the directory guide that tells Claude (and any future skill author) that this is where a decoupled reference file belongs:
+```markdown
+# Processes
+
+## What this holds
+Root-level folder for **decoupled reference material** — the markdown a skill or workflow
+reads at runtime, kept separate from the skill itself. Two kinds live here:
+
+1. **Skill-runtime reference files** — the `.md` a skill loads when it runs: a voice guide,
+   a lookup key, a mapping table, a tone spec, an SOP a skill consumes. The skill reads
+   whatever is current here, so updating a fact or mapping means editing the file in this
+   folder, never the skill.
+2. **Standalone process docs** — a plain `.md` that gives Claude clarity on how a specific
+   recurring process actually works (a checklist, a step sequence, a way of working),
+   referenced on demand.
+
+## Why it exists — separation of concerns
+When a skill hardcodes its reference data, changing that data means rewriting the skill.
+Keeping the reference `.md` here decouples the two: the skill points at a file in this folder
+and reads what is current. So whenever a new skill would benefit from a reference file it can
+read rather than embed, that file lives here.
+
+## Working here
+- Name each file for what it is (`brand-voice.md`, `expense-location-key.md`), not the skill
+  that reads it — one file may serve several.
+- Starts empty. It fills as skills and repeatable processes emerge; there is nothing to add
+  at setup.
+```
 
 **6. `Knowledge/Templates/`** — six core note templates, minimal frontmatter so a first-time client isn't overwhelmed:
 - `Meeting.md`
