@@ -19,6 +19,12 @@ A Claude plugin marketplace by [Tancredi De Pretto](https://www.linkedin.com/in/
 
 It also bundles two read-only review agents — `link-integrity-checker` and `vault-coherence-auditor` — that `os-health` hands its structural and coherence checks to.
 
+One standalone utility skill ships alongside the vault skills:
+
+| Skill | What it does |
+|---|---|
+| `cowork-windows-fix-guide` | Generates a client-facing, step-by-step guide for fixing Claude Cowork when it won't start on Windows (the Virtual Machine Platform / `vmcompute`/`hns` fix). |
+
 ## Install
 
 In **Cowork** or **Claude Code**, add the marketplace, then install the plugin:

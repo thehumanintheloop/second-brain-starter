@@ -9,8 +9,8 @@
     {
       "name": "second-brain-starter",
       "source": "./plugins/second-brain-starter",
-      "description": "Stand up a working second brain in Cowork and keep it running. A guided setup skill builds the folder structure, rules, identity note, templates, and framework notes, then hands off to seven companion skills for day-to-day upkeep: resume, record, import-transcript, create-folder, archive, os-health, and capture-framework.",
-      "version": "0.2.2"
+      "description": "Stand up a working second brain in Cowork and keep it running. A guided setup skill builds the folder structure, rules, identity note, templates, and framework notes, then hands off to seven companion skills for day-to-day upkeep: resume, record, import-transcript, create-folder, archive, os-health, and capture-framework. Also bundles a standalone utility skill, cowork-windows-fix-guide, for producing a client-facing guide to fixing Claude Cowork on Windows.",
+      "version": "0.3.0"
     }
   ]
 }

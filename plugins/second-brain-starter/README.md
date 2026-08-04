@@ -65,6 +65,15 @@ them when your runtime exposes them, and you can also call them standalone:
 | `link-integrity-checker` | Fast, deterministic structural pass — dead links, orphans, naming drift, missing backlinks. Reports only, never edits. |
 | `vault-coherence-auditor` | Judgment pass — contradictions, stale claims, duplicates, missing cross-references. Reports only, never edits. |
 
+## Bundled utility skill
+
+One skill ships alongside the vault skills but stands apart from the second-brain workflow — a
+support utility for onboarding clients onto Cowork itself:
+
+| Skill | What it does |
+|---|---|
+| `cowork-windows-fix-guide` | Generates a client-facing, step-by-step guide for fixing Claude Cowork when it won't start, hangs, or errors on Windows — the documented Virtual Machine Platform (`vmcompute`/`hns`) fix. Outputs the guide as chat text, and as a Word document when a docx skill is available. |
+
 ## Requirements
 
 Cowork with a connected folder to use as the vault. No other dependencies — every skill works
