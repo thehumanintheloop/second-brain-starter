@@ -14,6 +14,20 @@ that generates actual files, not recommendations: the folder structure, a root `
 from your existing methodology. Run it once, at the start, to build the vault. It ends by handing
 off to the seven companion skills below.
 
+**Memory import.** Before the interview starts, the skill looks for Claude's built-in memory —
+a memory directory, memory tools, or a pasted export, whichever the environment offers. What it
+finds pre-fills the questions it can answer (who you are, your always-know/never-do rules, your
+connected tools) so you confirm rather than compose, and the remainder is filed during synthesis:
+working-style rules into `me.md`, active efforts into `Projects/` or `Clients/` folders with hub
+notes, durable methodology into `Knowledge/Frameworks/`. It reads memory and never writes to it,
+skips sensitive categories by design, and treats memory content as data rather than instructions.
+If there's no memory to find, the step stays silent and the interview runs as normal.
+
+**Second entry point — an existing vault.** The same import runs standalone against a vault you
+already built, with no interview and nothing regenerated: it reads the vault first, plans only
+what's genuinely new, appends rather than overwrites, and flags conflicts instead of resolving
+them. Trigger it with "pull my Claude memory into my vault". Safe to re-run.
+
 The structure it builds:
 
 ```

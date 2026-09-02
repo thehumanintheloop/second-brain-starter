@@ -4,11 +4,13 @@ A Claude plugin marketplace by [Tancredi De Pretto](https://www.linkedin.com/in/
 
 **`second-brain-starter`** stands up a working second brain in Cowork and keeps it running. A guided setup skill builds your folder structure, rules, identity note, templates, and framework notes — actual files, not recommendations — then hands off to seven companion skills for day-to-day upkeep.
 
+It can also bring across what Claude already knows about you. If you've been using Claude's built-in memory, the setup skill reads it, uses it to pre-fill the interview, and files the rest into your vault — so the folder starts out knowing your working style and your live projects rather than as an empty shell. Already have a vault? Run the same import on its own with **"pull my Claude memory into my vault"**.
+
 ## What's inside
 
 | Skill | What it does |
 |---|---|
-| `second-brain-architecture` | Guided interview that builds your vault from scratch |
+| `second-brain-architecture` | Guided interview that builds your vault from scratch, and imports your existing Claude memory into it |
 | `resume` | Pick up a previous session from its latest work log |
 | `record` | Save the current session as a structured note |
 | `import-transcript` | Pull a meeting transcript in as a context note |
