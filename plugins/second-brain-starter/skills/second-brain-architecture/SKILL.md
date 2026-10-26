@@ -396,9 +396,9 @@ Use this as the root folder name and vault title throughout.
 ### Files to create
 
 **1. Root `CLAUDE.md`**
-Follow the lean structure: What this is / How to navigate / Working in subfolders / Vault structure / Operational notes.
+Follow the lean structure: What this is / How to navigate / Working in subfolders / Rules / Rules from corrections / Vault structure / Operational notes.
 - "What this is": synthesise from 1a (role + the who-you-are/what-you-do answer) + the vault purpose
-- "How to navigate": point to index.md first; note when to open project (or client/partner) folders vs the root; note that `core-rules.md` and `me.md` sit at root alongside it
+- "How to navigate": point to index.md first; note when to open project (or client/partner) folders vs the root; note that `core-rules.md` (the detail for `## Rules`) and `me.md` sit at root alongside it
 - **"Working in subfolders"**: a standing, non-optional directive that forces Claude to pick up local context before acting inside any folder. Emit this section **verbatim** into the root CLAUDE.md — it's the mechanism, not a suggestion:
   ```markdown
   ## Working in subfolders — read the local CLAUDE.md first
@@ -414,22 +414,89 @@ Follow the lean structure: What this is / How to navigate / Working in subfolder
   context that folder was set up to give you. When you open a folder and find a `CLAUDE.md`,
   reading it is the first thing you do.
   ```
+- **"Rules" and "Rules from corrections"**: the always-loaded rule layer. Each rule gets one line here, with the same number as its detail section in `core-rules.md` (file 2). Root `CLAUDE.md` loads in every session and `core-rules.md` does not, so the one-liners keep every rule in view while the file stays short. "Rules from corrections" is where rules from the client's corrections collect until `os-health` reviews them. Emit both sections **verbatim**:
+  ```markdown
+  ## Rules
+
+  Follow these rules in every session. `core-rules.md` holds the reason, edge cases and
+  examples for each rule. Read it when a rule applies and the line here does not settle the case.
+
+  1. Do not delete notes. Move them to `Archive/` instead.
+  2. Archive meaningful content with the `archive` skill before you remove or replace it.
+  3. Append to `Sessions/` files only. Never edit or delete past entries.
+  4. Save a context note before you make any deliverable.
+  5. Ask before you create a note outside the folder structure.
+  6. Give each note a filename that is unique across the vault.
+  7. Give every engagement folder a hub note named after the folder.
+  8. Read a folder's `CLAUDE.md` before you work inside it.
+  9. Keep reference files that skills read at runtime in `Processes/`.
+
+  To add a rule, add one line here and its detail in `core-rules.md`, with the same number in
+  both files.
+
+  ## Rules from corrections
+
+  When the user corrects you, or asks you to remember something that should apply every time,
+  offer to save it here as one line: `- <rule> (added YYYY-MM-DD)`. Add the line only after the
+  user agrees. Follow these rules in every session. `os-health` reviews this section and moves
+  each rule worth keeping into `## Rules` or `me.md`.
+  ```
+  Keep the heading `## Rules from corrections` exactly as written: tools that save corrections look for that heading, and the `- <rule> (added YYYY-MM-DD)` line format matches theirs.
 - "Vault structure": embed the full folder tree as a code block, one line per folder — only the folders actually opted into (see file 4)
 - "Operational notes": naming conventions implied by the folder structure, plus **the connector-scoping paragraph** synthesised from Block 2 — one or two sentences naming the connected tools and what each is for, written as prose, not a bullet-per-tool file structure. Point to `me.md` for the always-know/never-do work-style flags rather than duplicating them here.
 
-**2. `core-rules.md`** — trimmed operating rules baseline, verbatim:
+**2. `core-rules.md`** — the detail file for the root `CLAUDE.md`'s `## Rules` section, verbatim. Each heading repeats the one-line rule with the same number; the body gives the reason and the edge cases:
 ```markdown
 # Core Rules
 
-1. Do not delete notes — move them to `Archive/` instead.
-2. Archive meaningful content before removing or replacing it.
-3. `Sessions/` files are append-only — never edit or delete past entries.
-4. Context-first before deliverables: save a `.md` context note before generating any output document.
-5. Do not create notes outside the folder structure without asking first.
-6. Use unique, descriptive filenames vault-wide — wikilinks resolve by filename alone, so two notes sharing a name anywhere in the vault break each other's links.
-7. Every engagement folder (client, partner, or project) has a hub note named after the folder. New notes in that folder link back to it.
-8. Before working inside any folder, read its `CLAUDE.md` first if one exists — and the `CLAUDE.md` of each parent folder on the way down. Never act on a folder's contents without its local context.
-9. Reference material a skill or workflow reads at runtime — voice guides, lookup keys, mapping tables, SOPs, standalone process docs — lives in `Processes/`, decoupled from the skill that uses it. Update the file there, not the skill.
+This file holds the detail for the `## Rules` section of the root `CLAUDE.md`.
+- The one-line rule in `CLAUDE.md` is the instruction. Claude reads it in every session.
+- This file holds the reason and the edge cases for each rule. Read it when a rule applies
+  and the line in `CLAUDE.md` does not settle the case.
+- Each rule has the same number in both files. To add or change a rule, edit both files.
+
+## 1. Do not delete notes. Move them to `Archive/` instead.
+Deletion is permanent. A note in `Archive/` stays searchable and keeps its history. Use the
+`archive` skill to retire a whole note or folder.
+
+## 2. Archive meaningful content before you remove or replace it.
+Before you remove or replace a named section, a service description, a framework component or
+any other distinct idea, run the `archive` skill first. Typos, rephrasing and cleanup with no
+loss of meaning do not need archiving. If the content had a name or recorded a deliberate
+decision, archive it.
+
+## 3. Append to `Sessions/` files only. Never edit or delete past entries.
+A session note records what happened in that session. Add new content at the end with Edit.
+Never overwrite, rewrite or delete an earlier entry.
+
+## 4. Save a context note before you make any deliverable.
+Before you make a deck, document, spreadsheet or other output file, save a `.md` context note
+in the folder where the deliverable will live. Record the brief, the key decisions, the
+constraints and what the deliverable must achieve. This applies to single-session work too.
+
+## 5. Ask before you create a note outside the folder structure.
+The folder tree in `CLAUDE.md` is the agreed structure. When it is not clear where a new note
+belongs, ask before you create it. Use the `create-folder` skill to add an engagement folder.
+
+## 6. Give each note a filename that is unique across the vault.
+Wikilinks resolve by filename alone, in any folder. Two notes with the same filename break each
+other's links. Before you create a note, check that its name is unique. Name a note like a
+sentence, for example `Q3 Pricing Review.md` instead of `Pricing.md`.
+
+## 7. Give every engagement folder a hub note named after the folder.
+Each client, partner and project folder has one note with the same name as the folder, for
+example `Acme/Acme.md`. The hub says what the engagement is and links to the folder's key
+notes. New notes in the folder link back to the hub. `Sessions/` notes do not need the link.
+
+## 8. Read a folder's `CLAUDE.md` before you work inside it.
+A folder's `CLAUDE.md` holds the local status, decisions and constraints. Read it before you
+browse, read, create, edit or reason about anything in that folder. When you work several
+levels deep, read the `CLAUDE.md` of each folder on the way down, outermost first.
+
+## 9. Keep reference files that skills read at runtime in `Processes/`.
+Voice guides, lookup keys, mapping tables, SOPs and standalone process docs live in
+`Processes/`, separate from the skill that uses them. To change a fact or a mapping, update the
+file in `Processes/`. Do not edit the skill.
 ```
 
 **3. `me.md`** — identity note, home for 1a plus the always-know/never-do work-style flags so CLAUDE.md stays lean. The two flag sections ship with one illustrative example each (never blank) — the client edits them over time as real preferences surface:
@@ -635,7 +702,7 @@ Once all files are created, present the seven pre-installed skills, plain — no
 | `import-transcript` | Imports a meeting transcript into the vault as a structured context note (routes to whichever transcript source is connected) |
 | `create-folder` | Scaffolds a new client, partner, or project folder — creates the folder, a Sessions/ subfolder, and a hub note |
 | `archive` | Moves retired or superseded content to `Archive/`, keeping or cutting links as appropriate |
-| `os-health` | Runs a health-check audit on the vault — dead links, orphaned notes, naming drift, duplicates, stale claims — and graduates MOCs once Frameworks/ grows past a threshold |
+| `os-health` | Runs a health-check audit on the vault — dead links, orphaned notes, naming drift, duplicates, stale claims — reviews rules saved from corrections, and graduates MOCs once Frameworks/ grows past a threshold |
 | `capture-framework` | Turns an idea from the current conversation into a `Knowledge/Frameworks/` note, checking for a near-duplicate to deepen and a MOC to file it under, in one pass |
 
 One line each. No install decisions to make — they're already installed.
@@ -652,7 +719,7 @@ Once all files are created and the six-skill handoff is shown, output this closi
 
 Open the vault together and work through these questions:
 
-1. **CLAUDE.md** — Does this feel right? Is anything missing from "What Claude should always know"? Is there anything in "Never do" that's missing?
+1. **CLAUDE.md** — Does this feel right? Is anything missing from "What Claude should always know"? Is there anything in "Never do" that's missing? Walk through `## Rules` together, and show where a correction the client wants kept lands: `## Rules from corrections`.
 
 2. **Folder structure** — Does this match how you actually work? Are any folders missing? Are any unnecessary?
 

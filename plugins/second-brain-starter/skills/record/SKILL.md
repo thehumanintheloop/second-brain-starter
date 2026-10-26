@@ -90,7 +90,6 @@ date: YYYY-MM-DD
 time: "HH:MM"
 project: "ProjectName"
 type: session
-tags: [session]
 ---
 
 # [Session Topic]

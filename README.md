@@ -6,6 +6,8 @@ A Claude plugin marketplace by [Tancredi De Pretto](https://www.linkedin.com/in/
 
 It can also bring across what Claude already knows about you. If you've been using Claude's built-in memory, the setup skill reads it, uses it to pre-fill the interview, and files the rest into your vault — so the folder starts out knowing your working style and your live projects rather than as an empty shell. Already have a vault? Run the same import on its own with **"pull my Claude memory into my vault"**.
 
+Rules live in two layers: one line each in `CLAUDE.md`, which Claude reads every session, and the reasons behind them in `core-rules.md`. When you correct Claude or ask it to remember something, it offers to save the lesson as a new rule.
+
 ## What's inside
 
 | Skill | What it does |
@@ -16,7 +18,7 @@ It can also bring across what Claude already knows about you. If you've been usi
 | `import-transcript` | Pull a meeting transcript in as a context note |
 | `create-folder` | Scaffold a new client / project folder with a hub note |
 | `archive` | Retire content to `Archive/` instead of deleting it |
-| `os-health` | Audit the vault for broken links, orphans, duplicates, stale claims — and graduate framework notes into MOCs as they accumulate |
+| `os-health` | Audit the vault for broken links, orphans, duplicates and stale claims, review the rules saved from your corrections, and graduate framework notes into MOCs as they accumulate |
 | `capture-framework` | Turn a durable idea into a filed framework note |
 
 It also bundles two read-only review agents — `link-integrity-checker` and `vault-coherence-auditor` — that `os-health` hands its structural and coherence checks to.

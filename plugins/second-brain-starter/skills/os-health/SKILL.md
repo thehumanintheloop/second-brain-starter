@@ -105,10 +105,10 @@ subagents that mirror these tiers: `link-integrity-checker` (Tier 1) and `vault-
 the checks inline, then fold their findings into Step 6:
 
 - **Tier 1 → `link-integrity-checker`** — dead links, orphans, naming drift, missing backlinks. Pass
-  it the scope and the vault root. **Keep MOC coverage yourself** (it's Tier 1 below, but it feeds the
-  write procedure in Step 7 and the read-only agent doesn't run it).
+  it the scope and the vault root. **Keep MOC coverage and Rules layout yourself** (both are Tier 1
+  below, but they feed write procedures in Step 7 and the read-only agent doesn't run them).
 - **Tier 2 → `vault-coherence-auditor`** — contradictions, stale claims, duplicates, missing
-  cross-references.
+  cross-references. **Keep the Rules from corrections review yourself** for the same reason.
 
 Dispatching gives each tier its own context window and lets the two run at once — worth it on any
 vault big enough to matter. **If those subagents aren't available in your runtime, run every check
@@ -140,6 +140,13 @@ follow them, so nothing changes about *what* gets checked, only *who* runs it.
   - If the user defers either finding ("not now"), don't re-flag it on the very next run — note the
     deferral in `os-health-log.md` (see *Recurring ritual*) and only re-surface once the relevant
     count has grown by 10 more, or the user asks directly.
+- **Rules layout** — runs on every audit, whatever the scope. The vault's rules live in two
+  places: one line per rule in the root `CLAUDE.md`'s `## Rules` section, and the reason and edge
+  cases under the same number in `core-rules.md`. Flag:
+  - **No `## Rules` section** in the root `CLAUDE.md` while `core-rules.md` exists. The vault was
+    built before this layout. Offer the migration in Step 7.
+  - **Numbers out of step** — a rule number in one file with no match in the other, or a one-liner
+    that says something different from its detail section. Quote both lines.
 
 ### Tier 2 — Coherence (reasoning — judgement required)
 
@@ -153,6 +160,17 @@ follow them, so nothing changes about *what* gets checked, only *who* runs it.
   across notes (search for distinctive phrases), or empty/near-empty stubs.
 - **Missing cross-references** — two notes on clearly related topics whose `## Related` footers omit
   each other. This is *conceptual* overlap, distinct from missing backlinks (an exact-title match).
+- **Rules from corrections** — runs on every audit when the root `CLAUDE.md`'s
+  `## Rules from corrections` section holds any rule lines. This section collects rules saved from
+  the user's corrections, unreviewed, so it needs a regular pass to stay short and consistent. Sort
+  each line into one of four outcomes:
+  - **Duplicate** — it repeats a rule in `## Rules` or a flag in `me.md`. Propose removing the line.
+  - **Contradiction** — it conflicts with a rule in `## Rules`, `core-rules.md` or `me.md`. Quote
+    both lines and ask which one stands. **Never decide yourself.**
+  - **Graduate** — a durable rule worth keeping. A rule about how to run the vault graduates to
+    `## Rules` with the next free number, plus a detail section in `core-rules.md`. A personal
+    work-style preference (tone, format, wording) graduates to `me.md`.
+  - **Keep** — still useful but too new or too narrow to judge. Leave it.
 
 ## Step 6 — Present findings
 
@@ -163,7 +181,7 @@ show the top findings per section and offer to list the rest.
 ```
 ## OS Health — [date]
 **Scope:** [what was audited] · **Notes checked:** N
-**Vitals:** 🔴 N dead links · 🟠 N orphans · 🟠 N naming · 🟣 N MOC coverage · 🟡 N backlinks · 🟡 N contradictions · 🟡 N stale · ⚪ N duplicates · ⚪ N gaps
+**Vitals:** 🔴 N dead links · 🟠 N orphans · 🟠 N naming · 🟠 N rules layout · 🟣 N MOC coverage · 🟡 N backlinks · 🟡 N contradictions · 🟡 N stale · 🟡 N saved rules to review · ⚪ N duplicates · ⚪ N gaps
 (Only non-zero categories shown. A clean bill of health is a good outcome — say so plainly.)
 
 ### 🔴 Dead links (N)
@@ -199,6 +217,24 @@ Echo each change before making it; confirm after. Never touch anything not expli
   says which version is current, showing the proposed edit first.
 - **MOC coverage** — the bigger of the two structural calls in this skill; see *MOC graduation* below
   for the full procedure. Never skip straight to writing files — propose the clustering first.
+- **Rules layout migration** — show the full proposed text before you write anything:
+  1. A `## Rules` section for the root `CLAUDE.md`: an intro line pointing to `core-rules.md`, one
+     short imperative line per rule in `core-rules.md` with the same number, and a closing line
+     saying a new rule goes in both files with the same number.
+  2. An empty `## Rules from corrections` section after it. Use this text: "When the user corrects
+     you, or asks you to remember something that should apply every time, offer to save it here as
+     one line: `- <rule> (added YYYY-MM-DD)`. Add the line only after the user agrees. Follow these
+     rules in every session. `os-health` reviews this section and moves each rule worth keeping
+     into `## Rules` or `me.md`."
+  3. A header at the top of `core-rules.md` saying it holds the reason and edge cases for each rule
+     in `## Rules`, with the same numbers, and that a rule change means editing both files.
+
+  Keep every existing rule's wording in `core-rules.md`. The migration adds text and removes none.
+- **Numbers out of step** — propose the matching line or detail section; never renumber existing
+  rules, because other notes and skills cite them by number.
+- **Saved rules** — remove a duplicate line only on approval. For a graduation, add the rule to its
+  new home first, then remove the line from `## Rules from corrections` in the same pass, so the
+  rule is never in neither place.
 
 End with a change log: "Updated `path/note.md`", one line each, and the count fixed vs deferred.
 

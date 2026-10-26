@@ -28,13 +28,20 @@ already built, with no interview and nothing regenerated: it reads the vault fir
 what's genuinely new, appends rather than overwrites, and flags conflicts instead of resolving
 them. Trigger it with "pull my Claude memory into my vault". Safe to re-run.
 
+**Rules in two layers.** Every rule gets one line in the root `CLAUDE.md`, under `## Rules`,
+which Claude reads at the start of every session. `core-rules.md` holds the reason and the edge
+cases for each rule, under the same number, for Claude to check when a case is unclear. Every rule
+stays in view, and `CLAUDE.md` stays short. A second section, `## Rules from corrections`, collects
+the rules that come out of everyday use: when you correct Claude, or ask it to remember something,
+it offers to save the lesson there as one line.
+
 The structure it builds:
 
 ```
 [VaultRoot]/
-├── CLAUDE.md          navigational, includes a connector-scoping paragraph
+├── CLAUDE.md          navigational; holds the one-line rules and a connector-scoping paragraph
 ├── index.md           the map, read first
-├── core-rules.md      trimmed operating-rules baseline
+├── core-rules.md      the reason and edge cases behind each rule
 ├── me.md              identity note — who you are, how you work
 ├── Knowledge/
 │   ├── Frameworks/    framework notes; MOCs graduate here later
@@ -56,7 +63,7 @@ The structure it builds:
 | `import-transcript` | Imports a meeting transcript as a structured note, routing to whichever transcript source is connected. Ships dormant until you connect one. |
 | `create-folder` | Scaffolds a new client, partner, or project folder — folder, `Sessions/` subfolder, hub note, and `CLAUDE.md`. |
 | `archive` | Moves retired content to `Archive/` instead of deleting it, and extracts the substance of anything about to be overwritten. |
-| `os-health` | Runs a health-check audit — broken links, orphaned notes, naming drift, duplicates, stale claims — and applies only the fixes you approve. Also tracks `Knowledge/Frameworks/` growth and, once it crosses a threshold, proposes and (on approval) builds your first MOCs or files newly-unfiled notes into existing ones. |
+| `os-health` | Runs a health-check audit — broken links, orphaned notes, naming drift, duplicates, stale claims — and applies only the fixes you approve. Also tracks `Knowledge/Frameworks/` growth and, once it crosses a threshold, proposes and (on approval) builds your first MOCs or files newly-unfiled notes into existing ones. Reviews the rules saved from your corrections: removes duplicates, flags contradictions, and promotes the keepers into `## Rules` or `me.md`. On a vault built before v0.5.0, it offers to add the two-layer rules layout without rewriting any existing rule. |
 | `capture-framework` | Turns a durable idea into a `Knowledge/Frameworks/` note — either something just discussed, or one you hand it cold in a fresh chat (pasted text, a link, a described concept) — deepening a near-duplicate or filing under a MOC where one fits, in one pass. |
 
 ## How the pieces fit
@@ -64,7 +71,8 @@ The structure it builds:
 `second-brain-architecture` and `os-health` are siblings: one builds the structure, the other keeps
 it coherent as it grows. `record` and `resume` are a pair: one writes session context, the other
 reads it back. `create-folder` scaffolds new engagements that `record`/`resume` then maintain.
-`archive` executes the "don't delete, archive" rule the setup skill bakes into `core-rules.md`.
+`archive` executes the "don't delete, archive" rule the setup skill writes into the vault's rules.
+`os-health` also keeps those rules tidy: each run reviews the corrections Claude saved since the last.
 `capture-framework` grows the `Knowledge/Frameworks/` folder one idea at a time; when notes on a
 theme start to cluster it nudges you toward `os-health`, which is what actually graduates the MOC
 once the folder crosses its threshold.

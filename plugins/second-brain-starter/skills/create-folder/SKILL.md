@@ -17,8 +17,8 @@ custom-instructions panel to generate or paste; CLAUDE.md is the sole orientatio
 
 Operate on paths relative to the connected vault root — never hardcode an absolute path, since
 this skill ships to a different vault on every install. Standing rules live once, at the vault
-root's `core-rules.md`. This skill doesn't read or duplicate them — CLAUDE.md just points back
-to that file.
+root: one line each in the root `CLAUDE.md`'s `## Rules`, with the detail in `core-rules.md`.
+This skill doesn't read or duplicate them — the engagement CLAUDE.md just points back to them.
 
 Tools needed: Read, Write, Edit, Glob. Use Glob for existence checks and Write/Edit for file
 creation — never Bash `mkdir`/`ls`. Bash's sandbox mount path and the Read/Write/Edit path
@@ -120,7 +120,7 @@ last-updated: [today YYYY-MM-DD]
 ## Key files
 - `[EngagementName].md` — hub note; read first for full context
 - `Sessions/` — timestamped work logs; most recent = most current state
-- `core-rules.md` (vault root) — standing rules for the vault
+- `core-rules.md` (vault root) — reason and edge cases for each rule in the root CLAUDE.md's `## Rules`
 ```
 
 ## Step 5 — Confirm
