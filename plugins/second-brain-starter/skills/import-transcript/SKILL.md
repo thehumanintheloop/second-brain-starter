@@ -52,7 +52,16 @@ drive) and use whatever is connected.
 
 ## Step 2: Retrieve the meeting data
 
-Once the source is known, load its tools via ToolSearch, then pull the content.
+Once the source is known, **hand retrieval and extraction to the `transcript-extractor`
+subagent** for any meeting-notes tool, any transcript file, and any pasted transcript over about
+2,000 words. Give it the ID, link, keyword, date or path (or the pasted text) and any focus. It
+returns the fields below as a compact report, so the raw transcript stays out of this
+conversation. You still choose the destination, write the note and update the project context.
+If it returns a list of candidate meetings instead of an extraction, show the list to the user
+and ask which one. Do short pasted text and short drive docs inline. If the subagent is not
+available in this runtime, follow the manual steps below.
+
+Manual steps: load the source's tools via ToolSearch, then pull the content.
 
 - **Meeting-notes MCP:** fetch the summary/overview first; if it lacks detail on discussion
   points, fetch the sentence-level transcript too. If you only have a keyword or date, list

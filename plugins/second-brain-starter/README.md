@@ -79,15 +79,16 @@ once the folder crosses its threshold.
 
 ## Bundled agents
 
-Three read-only agents ship alongside the skills. `os-health` delegates its two check tiers to the
-first two, and `capture-framework` delegates its overlap check to the third, when your runtime
-exposes them. You can also call any of them standalone:
+Four read-only agents ship alongside the skills. `os-health` delegates its two check tiers to the
+first two, `capture-framework` delegates its overlap check to the third, and `import-transcript`
+delegates retrieval and extraction to the fourth, when your runtime exposes them. You can also call any of them standalone:
 
 | Agent | What it does |
 |---|---|
 | `link-integrity-checker` | Fast, deterministic structural pass — dead links, orphans, naming drift, missing backlinks. Reports only, never edits. |
 | `vault-coherence-auditor` | Judgment pass — contradictions, stale claims, duplicates, missing cross-references. Reports only, never edits. |
 | `framework-overlap-finder` | Before a framework note is written, searches `Knowledge/Frameworks/` for overlap and returns a verdict: append to an existing note, create a new one, or ambiguous. Reports only, never edits. |
+| `transcript-extractor` | Reads a long meeting transcript from your connected meeting tool, a drive doc, a file or pasted text, and returns a short extraction (overview, decisions, actions, open questions, key quotes) so the raw transcript stays out of your chat. Reads only, never writes or changes a meeting. |
 
 ## Bundled utility skill
 

@@ -21,7 +21,7 @@ Rules live in two layers: one line each in `CLAUDE.md`, which Claude reads every
 | `os-health` | Audit the vault for broken links, orphans, duplicates and stale claims, review the rules saved from your corrections, and graduate framework notes into MOCs as they accumulate |
 | `capture-framework` | Turn a durable idea into a filed framework note |
 
-It also bundles three read-only agents — `link-integrity-checker` and `vault-coherence-auditor`, which `os-health` hands its structural and coherence checks to, and `framework-overlap-finder`, which `capture-framework` runs before it writes a note to decide between appending and creating.
+It also bundles four read-only agents — `link-integrity-checker` and `vault-coherence-auditor`, which `os-health` hands its structural and coherence checks to, and `framework-overlap-finder`, which `capture-framework` runs before it writes a note to decide between appending and creating, and `transcript-extractor`, which `import-transcript` uses to read long transcripts without flooding your chat.
 
 One standalone utility skill ships alongside the vault skills:
 
