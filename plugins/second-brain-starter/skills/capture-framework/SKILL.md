@@ -66,7 +66,16 @@ Otherwise, don't ask — just do it and report back.
 
 ## Step 1 — Check what already exists
 
-Before writing anything:
+Before writing anything, hand the overlap check to the `framework-overlap-finder` subagent.
+Give it a 2 to 5 sentence summary of the idea and a candidate slug. It searches
+`Knowledge/Frameworks/` (and `Knowledge/Research/` and `Knowledge/MOCs/` when they exist) and
+returns a verdict: **append to an existing note**, **new note**, or **ambiguous**, with quoted
+evidence, the closest MOC and a filename collision check. It is read-only, so you make the final
+call and do all the writing. If the verdict is `ambiguous`, ask the user one short question.
+Use the verdict to go to Step 2a or Step 2b, and reuse its MOC suggestion and filename check in
+Steps 2b and 3.
+
+If the subagent is not available in this runtime, do the check yourself:
 
 1. `Glob("Knowledge/Frameworks/*.md")` to see what's there. If the folder is empty or doesn't
    exist yet, skip straight to Step 2 (new note).
